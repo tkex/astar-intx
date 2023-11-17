@@ -86,6 +86,8 @@ def get_clicked_pos(pos, rows, width):
 def main(win, width):
     # Create grid
     grid = make_grid(ROWS, width)
+    start_cell = None
+    end_cell = None
 
     run = True
     while run:
@@ -94,7 +96,8 @@ def main(win, width):
             if event.type == pygame.QUIT:
                 run = False
 
-            if pygame.mouse.get_pressed()[0]:  # Left mouse click
+            # Left mouse click
+            if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
                 row, col = get_clicked_pos(pos, ROWS, width)
                 cell = grid[row][col]
@@ -102,9 +105,24 @@ def main(win, width):
                 cell.set_color(BLACK)
                 print(f"Mouse click at: [{row}, {col}]")
 
+            # Right mouse click
+            if pygame.mouse.get_pressed()[2]:
+                pos = pygame.mouse.get_pos()
+                row, col = get_clicked_pos(pos, ROWS, width)
+                cell = grid[row][col]
+                # Set start and end cells
+                if start_cell is None:
+                    start_cell = cell
+                    cell.set_color(BLUE)
+                    print(f"Debug Log: Start at: [{row}, {col}]")
+                elif end_cell is None and cell != start_cell:
+                    end_cell = cell
+                    cell.set_color(ORANGE)
+                    print(f"Debug Log: End at: [{row}, {col}]")
+
     pygame.quit()
 
-# Create the window
+# Create window and set name
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("A* Visualization - Example")
 main(WIN, WIDTH)
