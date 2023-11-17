@@ -97,6 +97,9 @@ def draw_instructions(win):
     win.blit(text1, (WIDTH - text1.get_width() - 10, 10))
     win.blit(text2, (WIDTH - text2.get_width() - 10, 35))
 
+def reset_grid():
+    # Creates a new and empty grid and the start and end cells (complete reset)
+    return make_grid(ROWS, WIDTH), None, None
 
 def main(win, width):
     # Create grid
@@ -131,11 +134,17 @@ def main(win, width):
                 if start_cell is None:
                     start_cell = cell
                     cell.set_color(BLUE)
-                    print(f"Debug Log: Start at: [{row}, {col}]")
+                    print(f"Start at: [{row}, {col}]")
                 elif end_cell is None and cell != start_cell:
                     end_cell = cell
                     cell.set_color(ORANGE)
-                    print(f"Debug Log: End at: [{row}, {col}]")
+                    print(f"End at: [{row}, {col}]")
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    # Reset grid and all vars to empty
+                    grid, start_cell, end_cell = reset_grid()
+                    print("Resetted grid")
 
     pygame.quit()
 
