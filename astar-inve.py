@@ -16,6 +16,8 @@ BLUE = (0, 0, 255)
 
 # Init pygame
 pygame.init()
+pygame.font.init()
+FONT = pygame.font.SysFont('Consolas', 18, bold=True)
 
 
 class GridCell:
@@ -86,6 +88,16 @@ def get_clicked_pos(pos, rows, width):
 
     return row, col
 
+
+def draw_instructions(win):
+    # Render line separately
+    text1 = FONT.render("Left mouse: Draw obstacle", True, BLACK)
+    text2 = FONT.render("Right mouse: Set start and endpoint", True, BLACK)
+    # Position the text in top-right corner
+    win.blit(text1, (WIDTH - text1.get_width() - 10, 10))
+    win.blit(text2, (WIDTH - text2.get_width() - 10, 35))
+
+
 def main(win, width):
     # Create grid
     grid = make_grid(ROWS, width)
@@ -95,6 +107,8 @@ def main(win, width):
     run = True
     while run:
         draw(win, grid, ROWS, width)
+        draw_instructions(win)
+        pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
