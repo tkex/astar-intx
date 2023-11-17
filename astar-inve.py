@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # *** Pygame constants ***
 # Windows size (Width x height)
@@ -15,7 +16,8 @@ GREY = (128, 128, 128)
 BLUE = (50, 120, 214)  # 0, 0, 255
 RED = (171, 59, 64)
 
-
+# Density of ALL cells to be colored like 0.1 for 10%
+DENSITY = 0.1
 
 # Init pygame
 pygame.init()
@@ -97,15 +99,27 @@ def draw_instructions(win):
     text1 = FONT.render("Left mouse: Draw obstacle(s)", True, BLACK)
     text2 = FONT.render("Right mouse: Set start and endpoint", True, BLACK)
     text3 = FONT.render("Reset grid: Space", True, BLACK)
+    text4 = FONT.render("Set random grid obstacles: Enter", True, BLACK)
     # Position the text in top-right corner
     win.blit(text1, (WIDTH - text1.get_width() - 10, 10))
     win.blit(text2, (WIDTH - text2.get_width() - 10, 35))
     win.blit(text3, (WIDTH - text3.get_width() - 10, 60))
+    win.blit(text4, (WIDTH - text4.get_width() - 10, 85))
 
 
 def reset_grid():
     # Creates a new and empty grid and the start and end cells (complete reset)
     return make_grid(ROWS, WIDTH), None, None
+
+
+def randomize_grid(grid, density):
+    """
+    Randomly fill the grid with obstacles based on the given density (see above)
+    """
+    for row in grid:
+        for cell in row:
+            if random.random() < density:
+                cell.set_color(RED)
 
 def main(win, width):
     # Create grid
@@ -146,12 +160,17 @@ def main(win, width):
                     cell.set_color(ORANGE)
                     print(f"End at: [{row}, {col}]")
 
-            # Space
             if event.type == pygame.KEYDOWN:
+                # Space
                 if event.key == pygame.K_SPACE:
                     # Reset grid and all vars to empty
                     grid, start_cell, end_cell = reset_grid()
-                    print("Resetted grid")
+                    print("Debug Log: Grid reset")
+                # Enter
+                elif event.key == pygame.K_RETURN:
+                    # Colors the grid randomly based on the density
+                    randomize_grid(grid, DENSITY)
+                    print("Grid is randomized")
 
     pygame.quit()
 
