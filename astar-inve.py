@@ -37,9 +37,12 @@ class GridCell:
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
     def set_color(self, color):
-        # Set the color of the cell
-        self.color = color
-        print(f"Cell [{self.row}, {self.col}] set to color {color}")
+        # Set the color of the cell (if it is empty thus currently white)
+        if self.color == WHITE:
+            self.color = color
+            print(f"Debug Log: Cell [{self.row}, {self.col}] set to color {color}")
+        else:
+            print(f"Debug Log: Cell [{self.row}, {self.col}] already occupied; not allowed to change color")
 
 def make_grid(rows, width):
     grid = []
