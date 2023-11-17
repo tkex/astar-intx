@@ -7,12 +7,15 @@ WIDTH = 800
 ROWS = 50
 
 # *** Colour constants (in RGB) ***
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+WHITE = (199, 204, 186)  # 199, 204, 186 // 211, 224, 207
+BLACK = (58, 58, 58)
 PURPLE = (128, 0, 128)
 ORANGE = (255, 165, 0)
 GREY = (128, 128, 128)
-BLUE = (0, 0, 255)
+BLUE = (50, 120, 214)  # 0, 0, 255
+RED = (171, 59, 64)
+
+
 
 # Init pygame
 pygame.init()
@@ -91,7 +94,7 @@ def get_clicked_pos(pos, rows, width):
 
 def draw_instructions(win):
     # Render line separately
-    text1 = FONT.render("Left mouse: Draw obstacle", True, BLACK)
+    text1 = FONT.render("Left mouse: Draw obstacle(s)", True, BLACK)
     text2 = FONT.render("Right mouse: Set start and endpoint", True, BLACK)
     text3 = FONT.render("Reset grid: Space", True, BLACK)
     # Position the text in top-right corner
@@ -125,7 +128,7 @@ def main(win, width):
                 row, col = get_clicked_pos(pos, ROWS, width)
                 cell = grid[row][col]
                 # Change the color of the clicked cell
-                cell.set_color(BLACK)
+                cell.set_color(RED)
                 print(f"Mouse click at: [{row}, {col}]")
 
             # Right mouse click
